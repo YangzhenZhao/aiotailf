@@ -11,6 +11,8 @@
 ```py
 import asyncio
 
+from aiotailf import async_tail
+
 
 async def tail_lines():
     async for line in async_tail("test.log"):
@@ -18,7 +20,7 @@ async def tail_lines():
 
 
 loop = asyncio.get_event_loop()
-loop.run_until_complete(print_line())
+loop.run_until_complete(tail_lines())
 ```
 
 
