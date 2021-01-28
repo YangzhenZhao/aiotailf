@@ -1,0 +1,12 @@
+.vscode
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Distribution / packaging
+*.egg-info/
+build/
+dist/
+
+# Sphinx documentation
+docs/_build/
