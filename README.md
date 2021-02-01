@@ -3,8 +3,7 @@
 
 ### Installation
 
-安装: `pip install --upgrade aiotailf`        
-卸载: `pip uninstall aiotailf -y`  
+`pip install --upgrade aiotailf`        
 
 ### Examples
 
@@ -19,8 +18,7 @@ async def tail_lines():
         print(line)
 
 
-loop = asyncio.get_event_loop()
-loop.run_until_complete(tail_lines())
+asyncio.run(tail_lines())
 ```
 
 

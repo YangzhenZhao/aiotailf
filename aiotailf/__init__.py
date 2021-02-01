@@ -7,6 +7,7 @@ from typing import AsyncIterator
 import aiofiles
 
 LINE_BUFFER = 1
+BLOCKSIZE = 1048576
 
 
 async def async_tail(
@@ -40,16 +41,15 @@ async def async_tail(
 
     fino: int = stat.st_ino
     size: int = stat.st_size
-    blocksize: int = os.statvfs(filename).f_bsize
 
     fp = await aiofiles.open(filename, "r", LINE_BUFFER)
 
     if last_lines > 0:
-        if stat.st_size <= blocksize:
+        if stat.st_size <= BLOCKSIZE:
             for line in (await fp.readlines())[-last_lines::]:
                 yield line.rstrip()
         else:
-            await fp.seek(os.stat(fp.fileno()).st_size - blocksize)
+            await fp.seek(os.stat(fp.fileno()).st_size - BLOCKSIZE)
             for line in (await fp.readlines())[1:-1][-last_lines::]:
                 yield line.rstrip()
 
@@ -74,7 +74,7 @@ async def async_tail(
 
             size = n_size
             while True:
-                chunk = await fp.read(blocksize)
+                chunk = await fp.readline()
                 if chunk == "":
                     break
                 yield chunk.rstrip()
@@ -83,5 +83,5 @@ async def async_tail(
         await fp.close()
 
 
-__version__ = "0.0.1"
+__version__ = "0.1.0"
 __author__ = "nocilantro"
